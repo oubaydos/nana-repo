@@ -1,3 +1,5 @@
+
+def gv
 pipeline{
 
     agent any
@@ -5,16 +7,18 @@ pipeline{
     maven 'maven'
   }
     stages{
+        stage("init"){
+            gv = load "script.groovy"
+        }
       stage("show version"){
             steps{
-                sh 'npm --version'
+                gv.buildJar()
             }
         }
         stage("build jar"){
             steps{
               script{
-                  echo "building the jar"
-                  sh 'mvn package' 
+                  gv.buildImage()
               }
             }
             
@@ -22,8 +26,7 @@ pipeline{
         stage("build docker-image"){
             steps{
               script{
-                  echo "building the docker image"
-                  sh 'docker build -t oubaydos/temp:jenkins_file .' 
+                  gv.pushImage()
                   
               }
             }
