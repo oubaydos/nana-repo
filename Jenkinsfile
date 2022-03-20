@@ -8,17 +8,25 @@ pipeline{
   }
     stages{
         stage("init"){
-            gv = load "script.groovy"
+            steps{
+                script{
+                    gv = load "script.groovy"
+                }
+            
+            }
         }
       stage("show version"){
             steps{
-                gv.buildJar()
+                script {
+                    sh 'npm --version'
+                }
             }
         }
         stage("build jar"){
             steps{
               script{
-                  gv.buildImage()
+                  gv.buildJar()
+                  
               }
             }
             
@@ -26,7 +34,8 @@ pipeline{
         stage("build docker-image"){
             steps{
               script{
-                  gv.pushImage()
+                  gv.buildImage()
+                  
                   
               }
             }
@@ -35,11 +44,7 @@ pipeline{
          stage("push docker-image"){
             steps{
               script{
-                  echo "pushing the docker image"
-                  withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                        sh 'docker push oubaydos/temp:jenkins_file'
-                  }
+                  gv.pushImage()
                   
               }
             }
