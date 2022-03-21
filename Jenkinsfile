@@ -41,7 +41,7 @@ pipeline{
         stage("build docker-image"){
             steps{
               script{
-                  buildImage("temp","jenkins_file")
+                  buildImage()
                   
                   
               }
