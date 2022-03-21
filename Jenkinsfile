@@ -1,4 +1,5 @@
 
+@Library('jenkins shared library')
 def gv
 pipeline{
 
@@ -40,7 +41,7 @@ pipeline{
         stage("build docker-image"){
             steps{
               script{
-                  gv.buildImage()
+                  buildImage()
                   
                   
               }
@@ -50,7 +51,7 @@ pipeline{
          stage("push docker-image"){
             steps{
               script{
-                  gv.pushImage()
+                  pushImage()
                   
               }
             }
