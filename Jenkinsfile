@@ -30,7 +30,7 @@ pipeline{
             }
             steps{
               script{
-                  echo "branch : ${BRANCH_NAME}"
+                  echo "branch : ${env.BRANCH_NAME}"
                   gv.buildJar()
                   
               }
