@@ -26,6 +26,9 @@ pipeline{
                 script{
                     echo "incrementing project version"
                     sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parseVersion.nextIncrementalVersion} versions:commit'
+                    def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                    def version = matcher[0][1]
+                    env.IMAGE_NAME = "$version-$BUILD_NUMBER"
                 }
             }
         }
@@ -55,8 +58,9 @@ pipeline{
         stage("build docker-image"){
             steps{
               script{
-                  gv.buildImage()
-                  
+                //   gv.buildImage()
+                  echo "building the docker image"
+                    sh "docker build -t oubaydos/temp:$IMAGE_NAME ."
                   
               }
             }
@@ -65,8 +69,12 @@ pipeline{
          stage("push docker-image"){
             steps{
               script{
-                  gv.pushImage()
-                  
+                //   gv.pushImage()
+                  echo "pushing the docker image"
+            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                sh "docker push oubaydos/temp:$IMAGE_NAME"
+                }
               }
             }
             

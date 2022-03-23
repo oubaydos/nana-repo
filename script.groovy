@@ -4,7 +4,7 @@ def buildJar(){
 }
 def buildImage(){
     echo "building the docker image"
-    sh 'docker build -t oubaydos/temp:jenkins_file .' 
+    sh "docker build -t oubaydos/temp:$IMAGE_NAME ."
 }
 def pushImage(){
     echo "pushing the docker image"
