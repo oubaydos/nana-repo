@@ -6,6 +6,9 @@ pipeline{
   tools {
     maven 'maven'
   }
+	environment{
+	BRANCH_NAME = "master"
+}
     stages{
         stage("init"){
             steps{
@@ -18,7 +21,7 @@ pipeline{
       stage("show version"){
             steps{
                 script {
-			echo "${env.BRANCH_NAME}"
+			echo "${BRANCH_NAME}"
                     sh 'npm --version'
                 }
             }
@@ -26,12 +29,12 @@ pipeline{
         stage("build jar"){    
 	when {
                 expression{
-                   env.BRANCH_NAME == 'master'
+                   BRANCH_NAME == 'master'
                 }
             }
             steps{
               script{
-                  echo "branch : ${env.BRANCH_NAME}"
+                  echo "branch : ${BRANCH_NAME}"
                   gv.buildJar()
                   
               }
