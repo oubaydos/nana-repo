@@ -60,7 +60,8 @@ pipeline{
               script{
                 //   gv.buildImage()
                   echo "building the docker image"
-                    sh "docker build -t oubaydos/temp:$IMAGE_NAME ."
+                  echo "${IMAGE_NAME}"
+                    sh "docker build -t oubaydos/temp:${IMAGE_NAME} ."
                   
               }
             }
