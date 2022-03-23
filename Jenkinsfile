@@ -58,11 +58,8 @@ pipeline{
         stage("build docker-image"){
             steps{
               script{
-                //   gv.buildImage()
                   echo "building the docker image"
-                  echo "${IMAGE_NAME}"
-                    sh "docker build -t oubaydos/temp:${IMAGE_NAME} ."
-                  
+                  gv.buildImage()
               }
             }
             
@@ -70,12 +67,7 @@ pipeline{
          stage("push docker-image"){
             steps{
               script{
-                //   gv.pushImage()
-                  echo "pushing the docker image"
-            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                sh "docker push oubaydos/temp:$IMAGE_NAME"
-                }
+                  gv.pushImage()
               }
             }
             
