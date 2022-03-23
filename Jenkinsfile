@@ -25,6 +25,7 @@ pipeline{
                 script {
 			echo "${BRANCH_NAME}"
                     sh 'npm --version'
+                    echo "testing integration with multibranch pipeline"
                 }
             }
         }
