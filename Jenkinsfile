@@ -18,12 +18,12 @@ pipeline{
       stage("show version"){
             steps{
                 script {
+			echo "${env.BRANCH_NAME}
                     sh 'npm --version'
                 }
             }
         }
-        stage("build jar"){
-        echo "${env.BRANCH_NAME}"    
+        stage("build jar"){    
 	when {
                 expression{
                    env.BRANCH_NAME == 'master'
