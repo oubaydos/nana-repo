@@ -12,12 +12,23 @@ pipeline{
 	BRANCH_NAME = "master"
 }
     stages{
+        
         stage("init"){
             steps{
                 script{
                     gv = load "script.groovy"
                 }
             
+            }
+        }
+        stage("increment version"){
+            steps{
+                script{
+                    echo "incrementing project version"
+                    sh 'mvn build-helper:parse-version versions:set \ 
+                    -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parseVersion.nextIncrementalVersion} \
+                    versions:commit'
+                }
             }
         }
       stage("show version"){
