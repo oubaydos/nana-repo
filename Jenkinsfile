@@ -23,7 +23,8 @@ pipeline{
             }
         }
         stage("build jar"){
-            when {
+        echo "${env.BRANCH_NAME}"    
+	when {
                 expression{
                    env.BRANCH_NAME == 'master'
                 }
