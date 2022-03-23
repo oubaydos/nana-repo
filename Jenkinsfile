@@ -18,7 +18,7 @@ pipeline{
       stage("show version"){
             steps{
                 script {
-			echo "${env.BRANCH_NAME}
+			echo "${env.BRANCH_NAME}"
                     sh 'npm --version'
                 }
             }
