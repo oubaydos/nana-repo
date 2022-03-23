@@ -6,7 +6,7 @@ pipeline{
 
     agent any
   tools {
-    maven 'maven'
+    maven 'maven' 
   }
 	environment{
 	BRANCH_NAME = "master"
